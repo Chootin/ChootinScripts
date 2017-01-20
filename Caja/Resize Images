@@ -1,19 +1,21 @@
 #! /bin/bash
-# Uses ImageMagick, Xdialog
+# Requires ImageMagick, Xdialog
 
-if [ "$#" -eq 0 ]; then
-    echo "Usage: resizeMagick <Input file>..."
-    exit
-fi
+IFS=$(echo -en "\n\b")
 
 Xdialog --inputbox "Input Percentage" 10 40 2>/tmp/resizemagick.perc.tmp
 percentage=`cat /tmp/resizemagick.perc.tmp`
+rm /tmp/resizemagick.perc.tmp
 percentage="${percentage//'%'}"
 
-for var in "$@" do
+if [ -z $percentage ]; then
+        exit
+fi
+
+for var in $CAJA_SCRIPT_SELECTED_FILE_PATHS; do
     filename=$(basename "$var")
     extension="${filename##*.}"
     filenameNoExtension="${filename%.*}"
 
-    convert "$filename" -resize "$percentage"% "$filenameNoExtension"_resized."$extension"
+    convert "$filename" -resize "$percentage"% "$filenameNoExtension resized.$extension"
 done
