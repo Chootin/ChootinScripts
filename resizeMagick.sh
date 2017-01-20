@@ -5,6 +5,7 @@ if [ "$#" -ne 2 ]; then
     echo "Usage: resizeMagick <Input file> <Scale percentage>"
     exit
 fi
+
 filename=$(basename "$1")
 extension="${filename##*.}"
 filenameNoExtension="${filename%.*}"
