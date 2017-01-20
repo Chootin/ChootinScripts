@@ -2,7 +2,7 @@
 # Uses ImageMagick, Xdialog
 
 if [ "$#" -eq 0 ]; then
-    echo "Usage: resizeMagick <Input file>"
+    echo "Usage: resizeMagick <Input file>..."
     exit
 fi
 
