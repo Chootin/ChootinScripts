@@ -3,6 +3,7 @@
 import os
 import time
 import datetime
+import math
 
 DATETIME_FORMAT = "%Y-%m-%d %H:%M:%S"
 TIMESHEET_FILE = "/home/alec/timesheet.txt"
@@ -14,7 +15,7 @@ def processSession(line):
 	if not (previousLine == None or previousLine == TIMESHEET_ACTIVATED or previousLine == TIMESHEET_DEACTIVATED):
 		endTimestamp = time.strptime(previousLine, DATETIME_FORMAT)
 		session = time.mktime(endTimestamp) - time.mktime(startTimestamp)
-		print("Session found: ", session)
+		print("Session found ending on", time.strftime("%Y %b %d", endTimestamp), "spent", round(session / 60, 2), "minutes.")
 		return session
 	return 0.0
 
@@ -41,6 +42,6 @@ with open(TIMESHEET_FILE) as file:
 		previousLine = line
 
 timeTotalSeconds += processSession(previousLine)
-hours = round(timeTotalSeconds / 60 / 60)
-minutes = round(timeTotalSeconds / 60 - (hours * 60))
+hours = math.floor(timeTotalSeconds / 60 / 60)
+minutes = math.floor(timeTotalSeconds / 60 - (hours * 60))
 print("Total time: %d hours and %d minutes" % (hours, minutes))
